@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style type="text/css">
+        .ms-WPHeader .breadcrumbs {
+            display: block;
+            font-style: italic;
+        }
+        .ms-WPHeader .breadcrumbs, .ms-WPHeader .breadcrumbs a {
+            font-size: 0.8em;
+        }
+        .breadcrumb {
+            background-color: rgba(0, 0, 0, 0);
+        }
+    </style>
+    <!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript">
+        _spBodyOnLoadFunctionNames.push("doBreadCrumbs");//execute after DOM loaded
+        function doBreadCrumbs() {
+            var rootStr = getUrlParam('RootFolder');
+            if (rootStr != '') {
+                //For SharePoint online: '.ms-webpart-titleText a'
+                //For SharPoint 2013: '.ms-WPTitle a'
+                var webpartHeaders = document.querySelectorAll('.ms-webpart-titleText a');
+                for (var i = 0; i < webpartHeaders.length; i++) {
+                    var webpartHeader = webpartHeaders[i];
+                    var link = decodeURIComponent(webpartHeader.getAttribute('href'));
+                    if (rootStr.indexOf(link) != -1) {
+                        var path = rootStr.replace(link, '');
+                        var basepath = rootStr.replace(path, '');
+                        var breadcrumb = '<span class="breadcrumb">';
+                        breadcrumb += '<a"' + location.pathname + '">  ' + document.title + '</a>';
+                        var folders = path.split('/');
+                        for (var i = 1; i < folders.length; i++) {
+                            var currentfolder = folders[i];
+                            basepath += "/" + currentfolder;
+                            var folderlink = decodeURIComponent(window.location.search).replace('RootFolder=' + decodeURIComponent(rootStr), 'RootFolder=' + decodeURIComponent(basepath));
+                            breadcrumb += ' &gt; <a"' + folderlink + '">' + currentfolder + '</a>';
+                        }
+                        breadcrumb += '</span>';
+                        webpartHeader.parentNode.innerHTML += breadcrumb;
+                    }
+                }
+            }
+        }
+        function getUrlParam(name) {
+            name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+            var regexS = "[\\?&]" + name + "=([^&#]*)";
+            var regex = new RegExp(regexS);
+            var results = regex.exec(window.location.search);
+            if (results == null) return "";
+            else return decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+    </script>
+</head>
+<body>
+</body>
+</html>
