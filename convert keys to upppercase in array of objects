@@ -1,16 +1,19 @@
 var obj = [{key1: 1,key2: 1},{key3: 1,key4: 1}];
+function isUpperCase(str) {
+  return str === str.toUpperCase();
+}
+
 for(var i = 0; i<obj.length;i++) {
 
     var a = obj[i];
+    var b = Object.keys(obj[i]).filter(x => isUpperCase(x) == false);
     for (var key in a) {
-        if (a.hasOwnProperty(key)) {
+        if (b.includes(key)) {
           a[key.toUpperCase()] = a[key];
           delete a[key];
-          
         }
     }
     obj[i] = a;
-
 }
 
 ************capitalize************
