@@ -1,0 +1,31 @@
+var obj = [{key1: 1,key2: 1},{key3: 1,key4: 1}];
+for(var i = 0; i<obj.length;i++) {
+
+    var a = obj[i];
+    for (var key in a) {
+        if (a.hasOwnProperty(key)) {
+          a[key.toUpperCase()] = a[key];
+          delete a[key];
+          
+        }
+    }
+    obj[i] = a;
+
+}
+
+************capitalize************
+
+var obj = [{key1: 1,key2: 1},{key3: 1,key4: 1}];
+for(var i = 0; i<obj.length;i++) {
+
+    var a = obj[i];
+    for (var key in a) {
+        if (a.hasOwnProperty(key)) {
+          a[key.charAt(0).toUpperCase() + key.substring(1)] = a[key];
+          delete a[key];
+          
+        }
+    }
+    obj[i] = a;
+
+}
